@@ -1,2 +1,14 @@
-# wordpressCustomType
-Plugin WordPress de Custom Post Type et Taxonomies simple. Réalisé avec Grok en Vibe Coding. Plugin en créative common CC-0 / open source
+Me contacter via owoxa.com
+
+Plugin en CC-0 - vibe coding avec Grok.
+
+Current version > V1.0
+
+Structure :
+owoxa-cpt-tax/
+├── owoxa-cpt-tax.php          ← fichier principal du plugin
+├── includes/
+│   ├── class-cpt.php          ← enregistrement des Custom Post Types
+│   └── class-taxonomies.php    ← enregistrement des Taxonomies
+├── languages/                 ← (vide pour l’instant, prêt pour les traductions)
+└── readme.txt                 ← fichier WordPress standard (optionnel mais recommandé)
