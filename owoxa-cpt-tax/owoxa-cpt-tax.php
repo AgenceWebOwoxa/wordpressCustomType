@@ -6,7 +6,7 @@
  * Version:           1.0.0
  * Requires at least: 5.8
  * Requires PHP:      7.4
- * Author:            Agence Web Owoxa
+ * Author:            Agence Web Owoxa & Grok (en vibe coding)
  * Author URI:        https://owoxa.com
  * License:           CC0 1.0 Universal
  * License URI:       https://creativecommons.org/publicdomain/zero/1.0/
