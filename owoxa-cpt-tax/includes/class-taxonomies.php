@@ -1,9 +1,9 @@
 <?php
 /**
- * Classe d'enregistrement des Taxonomies
+ * Enregistrement dynamique des Taxonomies
  *
  * @package Owoxa_CPT_Tax
- * @version 1.0.0
+ * @version 2.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -16,53 +16,60 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Owoxa_Taxonomies {
 
 	/**
-	 * Enregistre toutes les Taxonomies
+	 * Enregistre toutes les Taxonomies stockées
 	 *
 	 * @return void
 	 */
 	public static function register() {
+		$taxes = Owoxa_Storage::get_taxonomies();
 
-		/**
-		 * Exemple de Taxonomie (à adapter / supprimer selon besoin)
-		 *
-		 * Pour ajouter une nouvelle taxonomie, dupliquer le bloc register_taxonomy ci-dessous.
-		 */
+		if ( empty( $taxes ) ) {
+			return;
+		}
 
-		/*
+		foreach ( $taxes as $slug => $data ) {
+			self::register_single( $slug, $data );
+		}
+	}
+
+	/**
+	 * Enregistre une seule Taxonomie
+	 *
+	 * @param string $slug
+	 * @param array  $data
+	 * @return void
+	 */
+	private static function register_single( $slug, $data ) {
+
+		$singular = isset( $data['singular'] ) ? $data['singular'] : ucfirst( $slug );
+		$plural   = isset( $data['plural'] ) ? $data['plural'] : $singular . 's';
+
 		$labels = array(
-			'name'                       => _x( 'Categories', 'taxonomy general name', 'owoxa-cpt-tax' ),
-			'singular_name'              => _x( 'Category', 'taxonomy singular name', 'owoxa-cpt-tax' ),
-			'search_items'               => __( 'Search Categories', 'owoxa-cpt-tax' ),
-			'popular_items'              => __( 'Popular Categories', 'owoxa-cpt-tax' ),
-			'all_items'                  => __( 'All Categories', 'owoxa-cpt-tax' ),
-			'parent_item'                => __( 'Parent Category', 'owoxa-cpt-tax' ),
-			'parent_item_colon'          => __( 'Parent Category:', 'owoxa-cpt-tax' ),
-			'edit_item'                  => __( 'Edit Category', 'owoxa-cpt-tax' ),
-			'update_item'                => __( 'Update Category', 'owoxa-cpt-tax' ),
-			'add_new_item'               => __( 'Add New Category', 'owoxa-cpt-tax' ),
-			'new_item_name'              => __( 'New Category Name', 'owoxa-cpt-tax' ),
-			'separate_items_with_commas' => __( 'Separate categories with commas', 'owoxa-cpt-tax' ),
-			'add_or_remove_items'        => __( 'Add or remove categories', 'owoxa-cpt-tax' ),
-			'choose_from_most_used'      => __( 'Choose from the most used categories', 'owoxa-cpt-tax' ),
-			'not_found'                  => __( 'No categories found.', 'owoxa-cpt-tax' ),
-			'menu_name'                  => __( 'Categories', 'owoxa-cpt-tax' ),
+			'name'                       => $plural,
+			'singular_name'              => $singular,
+			'search_items'               => sprintf( __( 'Rechercher des %s', 'owoxa-cpt-tax' ), $plural ),
+			'all_items'                  => sprintf( __( 'Tous les %s', 'owoxa-cpt-tax' ), $plural ),
+			'parent_item'                => sprintf( __( 'Parent %s', 'owoxa-cpt-tax' ), $singular ),
+			'parent_item_colon'          => sprintf( __( 'Parent %s :', 'owoxa-cpt-tax' ), $singular ),
+			'edit_item'                  => sprintf( __( 'Modifier %s', 'owoxa-cpt-tax' ), $singular ),
+			'update_item'                => sprintf( __( 'Mettre à jour %s', 'owoxa-cpt-tax' ), $singular ),
+			'add_new_item'               => sprintf( __( 'Ajouter un %s', 'owoxa-cpt-tax' ), $singular ),
+			'new_item_name'              => sprintf( __( 'Nouveau nom de %s', 'owoxa-cpt-tax' ), $singular ),
+			'menu_name'                  => $plural,
 		);
+
+		$object_type = isset( $data['object_type'] ) && is_array( $data['object_type'] ) ? $data['object_type'] : array();
 
 		$args = array(
-			'hierarchical'          => true,          // true = comme les catégories, false = comme les tags
-			'labels'                => $labels,
-			'show_ui'               => true,
-			'show_admin_column'     => true,
-			'query_var'             => true,
-			'rewrite'               => array( 'slug' => 'item-category' ),
-			'show_in_rest'          => true,          // Gutenberg + API REST
+			'hierarchical'      => isset( $data['hierarchical'] ) ? (bool) $data['hierarchical'] : true,
+			'labels'            => $labels,
+			'show_ui'           => true,
+			'show_admin_column' => true,
+			'query_var'         => true,
+			'rewrite'           => array( 'slug' => $slug ),
+			'show_in_rest'      => true,
 		);
 
-		// Lie la taxonomie au CPT 'owoxa_item' (à adapter)
-		register_taxonomy( 'owoxa_item_category', array( 'owoxa_item' ), $args );
-		*/
-
-		// Aucune taxonomie enregistrée pour l'instant.
-		// Ajoutez vos register_taxonomy() ici.
+		register_taxonomy( $slug, $object_type, $args );
 	}
 }

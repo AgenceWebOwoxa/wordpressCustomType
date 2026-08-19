@@ -2,8 +2,8 @@
 /**
  * Plugin Name:       Owoxa CPT & Taxonomies
  * Plugin URI:        https://owoxa.com
- * Description:       Plugin léger pour enregistrer des Custom Post Types et des Taxonomies. Réalisé en Vibe Coding avec Grok.
- * Version:           1.0.0
+ * Description:       Générateur simple de Custom Post Types et Taxonomies depuis l’administration WordPress. Réalisé en Vibe Coding avec Grok.
+ * Version:           2.0.0
  * Requires at least: 5.8
  * Requires PHP:      7.4
  * Author:            Agence Web Owoxa & Grok (en vibe coding)
@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Constantes du plugin
  */
-define( 'OWOXA_CPT_TAX_VERSION', '1.0.0' );
+define( 'OWOXA_CPT_TAX_VERSION', '2.0.0' );
 define( 'OWOXA_CPT_TAX_FILE', __FILE__ );
 define( 'OWOXA_CPT_TAX_PATH', plugin_dir_path( __FILE__ ) );
 define( 'OWOXA_CPT_TAX_URL', plugin_dir_url( __FILE__ ) );
@@ -32,26 +32,37 @@ define( 'OWOXA_CPT_TAX_BASENAME', plugin_basename( __FILE__ ) );
 /**
  * Chargement des classes
  */
+require_once OWOXA_CPT_TAX_PATH . 'includes/class-storage.php';
 require_once OWOXA_CPT_TAX_PATH . 'includes/class-cpt.php';
 require_once OWOXA_CPT_TAX_PATH . 'includes/class-taxonomies.php';
+require_once OWOXA_CPT_TAX_PATH . 'includes/class-admin.php';
 
 /**
  * Initialisation du plugin
  */
 function owoxa_cpt_tax_init() {
-	// Enregistrement des Custom Post Types
+	// Enregistrement dynamique des Custom Post Types
 	Owoxa_CPT::register();
 
-	// Enregistrement des Taxonomies
+	// Enregistrement dynamique des Taxonomies
 	Owoxa_Taxonomies::register();
 }
 add_action( 'init', 'owoxa_cpt_tax_init' );
 
 /**
+ * Initialisation de l'administration
+ */
+function owoxa_cpt_tax_admin_init() {
+	if ( is_admin() ) {
+		Owoxa_Admin::init();
+	}
+}
+add_action( 'plugins_loaded', 'owoxa_cpt_tax_admin_init' );
+
+/**
  * Activation du plugin
  */
 function owoxa_cpt_tax_activate() {
-	// On force l'enregistrement des CPT/Tax pour flush les rewrite rules
 	owoxa_cpt_tax_init();
 	flush_rewrite_rules();
 }
