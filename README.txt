@@ -11,4 +11,3 @@ owoxa-cpt-tax/
 --- class-cpt.php - renregistrement des Custom Post Types
 --- class-taxonomies.php - enregistrement des Taxonomies
 -- languages/ - (vide pour l’instant, prêt pour les traductions)
--- readme.txt - fichier WordPress standard
