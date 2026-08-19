@@ -1,2 +1,2 @@
 // version 2.0
-// page d’administration
+// page d’administration (liste + formulaires)
