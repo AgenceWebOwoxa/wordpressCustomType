@@ -6,9 +6,9 @@ Current version > V1.0
 
 Structure :
 owoxa-cpt-tax/
-├── owoxa-cpt-tax.php          ← fichier principal du plugin
+├── owoxa-cpt-tax.php - fichier principal du plugin
 ├── includes/
-│   ├── class-cpt.php          ← enregistrement des Custom Post Types
-│   └── class-taxonomies.php    ← enregistrement des Taxonomies
-├── languages/                 ← (vide pour l’instant, prêt pour les traductions)
-└── readme.txt                 ← fichier WordPress standard (optionnel mais recommandé)
+│   ├── class-cpt.php - renregistrement des Custom Post Types
+│   └── class-taxonomies.php - enregistrement des Taxonomies
+├── languages/ - (vide pour l’instant, prêt pour les traductions)
+└── readme.txt - fichier WordPress standard (optionnel mais recommandé)
